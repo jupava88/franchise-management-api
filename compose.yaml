@@ -1,0 +1,20 @@
+services:
+  mysql:
+    image: mysql:8.0.43
+    environment:
+      MYSQL_DATABASE: franchise_management
+      MYSQL_USER: franchise_user
+      MYSQL_PASSWORD: franchise_password
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot_password"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mysql_data:
