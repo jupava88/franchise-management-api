@@ -127,7 +127,7 @@
     }
   ],
   "variable": [
-    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "baseUrl", "value": "https://franchise-management-api-4gc2.onrender.com" },
     { "key": "franchiseId", "value": "1" },
     { "key": "locationId", "value": "1" },
     { "key": "productId", "value": "1" }

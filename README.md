@@ -4,6 +4,22 @@ API REST para administrar franquicias, locations y productos con su stock.
 
 El proyecto está desarrollado con Java 17, Spring Boot, MySQL, JPA y Flyway.
 
+## API desplegada
+
+La aplicación está desplegada en Render y usa una base de datos MySQL en Aiven.
+
+```text
+https://franchise-management-api-4gc2.onrender.com
+```
+
+El estado de la aplicación se puede consultar en:
+
+```text
+https://franchise-management-api-4gc2.onrender.com/actuator/health
+```
+
+Al usar una instancia gratuita, la primera petición puede tardar cerca de un minuto si la aplicación estaba inactiva.
+
 ## Ejecutar con Docker
 
 Se necesita Docker y tener disponibles los puertos `8080` y `3307`.
@@ -48,7 +64,7 @@ La conexión local de MySQL usa el puerto `3307`. Flyway crea las tablas al inic
 
 ## Endpoints
 
-Se incluye una colección sencilla de Postman en `postman/franchise-management-api.postman_collection.json`.
+Se incluye una colección sencilla de Postman en `postman/franchise-management-api.postman_collection.json`. La colección usa la URL desplegada; para probar localmente se puede cambiar la variable `baseUrl` a `http://localhost:8080`.
 
 | Método | Ruta | Descripción |
 | --- | --- | --- |
