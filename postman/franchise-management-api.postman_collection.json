@@ -1,0 +1,135 @@
+{
+  "info": {
+    "name": "Franchise Management API",
+    "description": "Peticiones para probar la API. Después de crear cada registro se deben actualizar los IDs de las variables de la colección.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Crear franquicia",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Mercado Central\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": "{{baseUrl}}/api/franchises"
+      }
+    },
+    {
+      "name": "2. Crear location",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Poblado\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": "{{baseUrl}}/api/franchises/{{franchiseId}}/locations"
+      }
+    },
+    {
+      "name": "3. Crear café molido",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Café molido\",\n  \"stock\": 18\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": "{{baseUrl}}/api/locations/{{locationId}}/products"
+      }
+    },
+    {
+      "name": "4. Crear galletas con el mismo stock",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Galletas de avena\",\n  \"stock\": 18\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": "{{baseUrl}}/api/locations/{{locationId}}/products"
+      }
+    },
+    {
+      "name": "5. Consultar productos con mayor stock",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/franchises/{{franchiseId}}/products/top-stock"
+      }
+    },
+    {
+      "name": "6. Actualizar stock",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"stock\": 24\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": "{{baseUrl}}/api/products/{{productId}}/stock"
+      }
+    },
+    {
+      "name": "7. Cambiar nombre de franquicia",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Mercado Central Antioquia\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": "{{baseUrl}}/api/franchises/{{franchiseId}}/name"
+      }
+    },
+    {
+      "name": "8. Cambiar nombre de location",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Poblado Sur\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": "{{baseUrl}}/api/locations/{{locationId}}/name"
+      }
+    },
+    {
+      "name": "9. Cambiar nombre de producto",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Café molido 500 g\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": "{{baseUrl}}/api/products/{{productId}}/name"
+      }
+    },
+    {
+      "name": "10. Eliminar producto",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/products/{{productId}}"
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "franchiseId", "value": "1" },
+    { "key": "locationId", "value": "1" },
+    { "key": "productId", "value": "1" }
+  ]
+}
