@@ -1,20 +1,19 @@
 package io.github.jupava88.franchisemanagement.service;
 
-import io.github.jupava88.franchisemanagement.dto.CreateFranchiseRequest;
-import io.github.jupava88.franchisemanagement.dto.FranchiseResponse;
-import io.github.jupava88.franchisemanagement.model.Franchise;
+import io.github.jupava88.franchisemanagement.dto.TopStockProductResponse;
+import io.github.jupava88.franchisemanagement.model.Location;
+import io.github.jupava88.franchisemanagement.model.Product;
 import io.github.jupava88.franchisemanagement.repository.FranchiseRepository;
+import io.github.jupava88.franchisemanagement.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -23,23 +22,28 @@ class FranchiseServiceTest {
     @Mock
     private FranchiseRepository franchiseRepository;
 
+    @Mock
+    private ProductRepository productRepository;
+
     @InjectMocks
     private FranchiseService franchiseService;
 
     @Test
-    void createsAFranchise() {
-        Franchise savedFranchise = mock(Franchise.class);
-        when(savedFranchise.getId()).thenReturn(1L);
-        when(savedFranchise.getName()).thenReturn("Nequi");
-        when(franchiseRepository.save(any(Franchise.class))).thenReturn(savedFranchise);
+    void returnsTopStockProducts() {
+        Location location = new Location("Medellin");
+        Product firstProduct = new Product("Coffee", 40);
+        Product secondProduct = new Product("Tea", 40);
+        location.addProduct(firstProduct);
+        location.addProduct(secondProduct);
 
-        FranchiseResponse response = franchiseService.create(new CreateFranchiseRequest("Nequi"));
+        when(franchiseRepository.existsById(1L)).thenReturn(true);
+        when(productRepository.findTopStockByFranchiseId(1L))
+                .thenReturn(List.of(firstProduct, secondProduct));
 
-        assertThat(response.id()).isEqualTo(1L);
-        assertThat(response.name()).isEqualTo("Nequi");
+        List<TopStockProductResponse> response = franchiseService.findTopStockProducts(1L);
 
-        ArgumentCaptor<Franchise> franchiseCaptor = ArgumentCaptor.forClass(Franchise.class);
-        verify(franchiseRepository).save(franchiseCaptor.capture());
-        assertThat(franchiseCaptor.getValue().getName()).isEqualTo("Nequi");
+        assertThat(response).hasSize(2);
+        assertThat(response.get(0).productName()).isEqualTo("Coffee");
+        assertThat(response.get(1).productName()).isEqualTo("Tea");
     }
 }

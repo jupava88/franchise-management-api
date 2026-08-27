@@ -2,6 +2,7 @@ package io.github.jupava88.franchisemanagement.controller;
 
 import io.github.jupava88.franchisemanagement.dto.CreateProductRequest;
 import io.github.jupava88.franchisemanagement.dto.ProductResponse;
+import io.github.jupava88.franchisemanagement.dto.UpdateNameRequest;
 import io.github.jupava88.franchisemanagement.dto.UpdateStockRequest;
 import io.github.jupava88.franchisemanagement.service.ProductService;
 import jakarta.validation.Valid;
@@ -40,6 +41,14 @@ public class ProductController {
             @Valid @RequestBody UpdateStockRequest request
     ) {
         return productService.updateStock(productId, request);
+    }
+
+    @PatchMapping("/products/{productId}/name")
+    public ProductResponse updateName(
+            @PathVariable Long productId,
+            @Valid @RequestBody UpdateNameRequest request
+    ) {
+        return productService.updateName(productId, request);
     }
 
     @DeleteMapping("/products/{productId}")

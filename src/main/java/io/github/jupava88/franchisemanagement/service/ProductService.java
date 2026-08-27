@@ -2,6 +2,7 @@ package io.github.jupava88.franchisemanagement.service;
 
 import io.github.jupava88.franchisemanagement.dto.CreateProductRequest;
 import io.github.jupava88.franchisemanagement.dto.ProductResponse;
+import io.github.jupava88.franchisemanagement.dto.UpdateNameRequest;
 import io.github.jupava88.franchisemanagement.dto.UpdateStockRequest;
 import io.github.jupava88.franchisemanagement.exception.ResourceNotFoundException;
 import io.github.jupava88.franchisemanagement.model.Location;
@@ -48,12 +49,15 @@ public class ProductService {
         Product product = findProduct(productId);
         product.updateStock(request.stock());
 
-        return new ProductResponse(
-                product.getId(),
-                product.getName(),
-                product.getStock(),
-                product.getLocation().getId()
-        );
+        return toResponse(product);
+    }
+
+    @Transactional
+    public ProductResponse updateName(Long productId, UpdateNameRequest request) {
+        Product product = findProduct(productId);
+        product.updateName(request.name());
+
+        return toResponse(product);
     }
 
     @Transactional
@@ -65,5 +69,14 @@ public class ProductService {
     private Product findProduct(Long productId) {
         return productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+    }
+
+    private ProductResponse toResponse(Product product) {
+        return new ProductResponse(
+                product.getId(),
+                product.getName(),
+                product.getStock(),
+                product.getLocation().getId()
+        );
     }
 }

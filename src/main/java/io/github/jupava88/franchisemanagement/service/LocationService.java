@@ -2,6 +2,7 @@ package io.github.jupava88.franchisemanagement.service;
 
 import io.github.jupava88.franchisemanagement.dto.CreateLocationRequest;
 import io.github.jupava88.franchisemanagement.dto.LocationResponse;
+import io.github.jupava88.franchisemanagement.dto.UpdateNameRequest;
 import io.github.jupava88.franchisemanagement.exception.ResourceNotFoundException;
 import io.github.jupava88.franchisemanagement.model.Franchise;
 import io.github.jupava88.franchisemanagement.model.Location;
@@ -38,6 +39,20 @@ public class LocationService {
                 savedLocation.getId(),
                 savedLocation.getName(),
                 franchiseId
+        );
+    }
+
+    @Transactional
+    public LocationResponse updateName(Long locationId, UpdateNameRequest request) {
+        Location location = locationRepository.findById(locationId)
+                .orElseThrow(() -> new ResourceNotFoundException("Location not found"));
+
+        location.updateName(request.name());
+
+        return new LocationResponse(
+                location.getId(),
+                location.getName(),
+                location.getFranchise().getId()
         );
     }
 }
